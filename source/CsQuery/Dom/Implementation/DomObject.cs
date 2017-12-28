@@ -606,6 +606,16 @@ namespace CsQuery.Implementation
         }
 
         /// <summary>
+        /// Append text to the NodeValue.  This is added so that we can use a StringBuilder internally and speed up CsQueryTreeBuilder.AppendCharacters which was slow
+        /// </summary>
+        /// <param name="text">Text to append</param>
+
+        public virtual void AppendToNodeValue(string text)
+        {
+            throw new InvalidOperationException("You can't set NodeValue for this node type.");
+        }
+
+        /// <summary>
         /// The value of the "type" attribute. For input elements, this property always returns a
         /// lowercase value and defaults to "text" if there is no type attribute. For other element types,
         /// it simply returns the value of the "type" attribute.

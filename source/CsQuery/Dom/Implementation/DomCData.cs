@@ -19,7 +19,7 @@ namespace CsQuery.Implementation
         public DomCData()
             : base()
         {
-            _NonAttributeData = "";
+            _NonAttributeData = new StringBuilder();
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace CsQuery.Implementation
             NodeValue = value;
         }
 
-        private string _NonAttributeData;
+        private StringBuilder _NonAttributeData;
 
         /// <summary>
         /// Gets or sets the node value. For CDATA nodes, this is the content.
@@ -50,8 +50,19 @@ namespace CsQuery.Implementation
             }
             set
             {
-                NonAttributeData = value;
+                _NonAttributeData = new StringBuilder(value);
             }
+        }
+
+
+        /// <summary>
+        /// Append text to the NodeValue.  This is added so that we can use a StringBuilder internally and speed up CsQueryTreeBuilder.AppendCharacters which was slow
+        /// </summary>
+        /// <param name="text">Text to append</param>
+
+        public override void AppendToNodeValue(string text)
+        {
+            _NonAttributeData.Append(text);
         }
 
         /// <summary>
@@ -75,11 +86,11 @@ namespace CsQuery.Implementation
         {
             get
             {
-                return _NonAttributeData;
+                return _NonAttributeData.ToString();
             }
             set
             {
-                _NonAttributeData = value ?? "";
+                _NonAttributeData = new StringBuilder(value ?? "");
             }
         }
 

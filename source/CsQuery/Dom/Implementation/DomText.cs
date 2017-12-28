@@ -21,7 +21,7 @@ namespace CsQuery.Implementation
         public DomText()
             : base()
         {
-            
+            _NodeValue = new StringBuilder();
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace CsQuery.Implementation
         /// The inner node value; the text.
         /// </summary>
 
-        protected string _NodeValue;
+        protected StringBuilder _NodeValue;
        
 
         /// <summary>
@@ -77,12 +77,22 @@ namespace CsQuery.Implementation
         {
             get
             {
-                return _NodeValue ?? "";
+                return _NodeValue?.ToString() ?? "";
             }
             set
             {
-                _NodeValue=value;
+                _NodeValue=new StringBuilder(value);
             }
+        }
+
+        /// <summary>
+        /// Append text to the NodeValue.  This is added so that we can use a StringBuilder internally and speed up CsQueryTreeBuilder.AppendCharacters which was slow
+        /// </summary>
+        /// <param name="text">Text to append</param>
+
+        public override void AppendToNodeValue(string text)
+        {
+            _NodeValue.Append(text);
         }
 
         /// <summary>

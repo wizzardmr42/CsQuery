@@ -20,7 +20,7 @@ namespace CsQuery.Implementation
         public DomComment()
             : base()
         {
-            _NonAttributeData = "";
+            _NonAttributeData = new StringBuilder();
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace CsQuery.Implementation
 
         #region private properties
 
-        private string _NonAttributeData;
+        private StringBuilder _NonAttributeData;
 
         #endregion
 
@@ -130,11 +130,11 @@ namespace CsQuery.Implementation
         {
             get
             {
-                return _NonAttributeData;
+                return _NonAttributeData.ToString();
             }
             set
             {
-                _NonAttributeData = value ?? "";
+                _NonAttributeData = new StringBuilder(value ?? "");
             }
         }
 
@@ -153,6 +153,16 @@ namespace CsQuery.Implementation
             {
                 NonAttributeData = value;
             }
+        }
+
+        /// <summary>
+        /// Append text to the NodeValue.  This is added so that we can use a StringBuilder internally and speed up CsQueryTreeBuilder.AppendCharacters which was slow
+        /// </summary>
+        /// <param name="text">Text to append</param>
+
+        public override void AppendToNodeValue(string text)
+        {
+            _NonAttributeData.Append(text);
         }
 
         /// <summary>

@@ -180,6 +180,13 @@ namespace CsQuery
         /// </returns>
 
         new IDomNode Clone();
+
+        /// <summary>
+        /// Append text to the NodeValue.  This is added so that we can use a StringBuilder internally and speed up CsQueryTreeBuilder.AppendCharacters which was slow
+        /// </summary>
+        /// <param name="text">Text to append</param>
+        
+        void AppendToNodeValue(string text);
     }
 
 }

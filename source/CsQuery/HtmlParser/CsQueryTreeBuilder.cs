@@ -90,7 +90,7 @@ namespace CsQuery.HtmlParser
             IDomText lastChild = parent.LastChild as IDomText;
             if (lastChild != null)
             {
-                lastChild.NodeValue += text;
+                lastChild.AppendToNodeValue(text);
                 
             } else {
                 lastChild = Document.CreateTextNode(text);
